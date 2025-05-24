@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+MOUNTPOINT="$1"
+
+if [ ! "$MOUNTPOINT" ]
+then
+  echo "$DEVICE_LOCATION"
+  echo "Please provide a mount point for \$1"
+  exit 1
+fi
+
+
+# mount all drives
+sudo mount -a
+
+# Ensure the drive exists now
+df -h | grep "$MOUNTPOINT"

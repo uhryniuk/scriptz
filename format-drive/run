@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e 
+
+DEVICE="$1"
+MOUNTPOINT="$2"
+
+
+if [[ -z "$DEVICE" || -z "$MOUNTPOINT" ]]; then
+    echo "Error: Please provide a valid device and mountpoint for \$1 and \$2, respectively" >&2
+    exit 1
+fi
+
+# Format the actual drive into a filesystem
+./format "$DEVICE"
+
+# Where is the filesystem going to be mounted
+./mountpoint "$MOUNTPOINT"
+
+# NOTE: '1' is added to $DEVICE because that is the default partition
+ENTRY=$(./fstab-entry "$DEVICE"1 "$MOUNTPOINT")
+
+# Only add it to /etc/fstab if th entry does not exist
+if ! grep -Fxq "$ENTRY" "/etc/fstab"; then
+    echo "$ENTRY" >> "/etc/fstab"
+    echo "Added: $ENTRY to /etc/fstab"
+else
+    echo "$ENTRY already exists in /etc/fstab"
+fi
+
+./test-drive "$MOUNTPOINT"
+
+./update-user "$MOUNTPOINT"

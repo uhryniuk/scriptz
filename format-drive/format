@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DEVICE_LOCATION="$1"
+
+if [ ! "$DEVICE_LOCATION" ]
+then
+  echo "$DEVICE_LOCATION"
+  echo "Please provide a device location for \$1"
+  exit 1
+fi
+
+# Format partitions on the drive
+sudo parted "$DEVICE_LOCATION" mklabel gpt
+sudo parted -a opt "$DEVICE_LOCATION" mkpart primary ext4 0% 100%
+
+# Create the file system
+sudo mkfs.ext4 "$DEVICE_LOCATION"1
+
+# Ensure the the partition exists now
+sudo file -s "$DEVICE_LOCATION"1
