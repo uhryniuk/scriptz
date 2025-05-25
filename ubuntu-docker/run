@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Exit on any non-zero return code
+set -exo
+
+./keyring
+
+./package-install
+
+./user-groups
+
+./verify

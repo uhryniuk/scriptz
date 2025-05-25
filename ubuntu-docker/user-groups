@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Source: https://docs.docker.com/engine/install/linux-postinstall/
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker  # Only required so user doesn't have to logout then back in
+
