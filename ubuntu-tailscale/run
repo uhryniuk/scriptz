@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Source: https://tailscale.com/kb/1476/install-ubuntu-2404
+
+./keyring
+
+./package-install
+
+./launch
+
+echo "Done!"
